@@ -57,12 +57,10 @@ export default function Signup() {
     return newErrors;
   };
 
-  // Form submission handler
   const submitHandler = (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      // Handle successful form submission
       console.log("Form data:", userData);
     } else {
       setErrors(validationErrors);
@@ -93,7 +91,6 @@ export default function Signup() {
             )}
           </div>
 
-          {/* Email Field */}
           <div className="relative">
             <input
               type="email"
@@ -131,7 +128,6 @@ export default function Signup() {
             )}
           </div>
 
-          {/* Confirm Password Field */}
           <div className="relative">
             <input
               type="password"
@@ -150,7 +146,6 @@ export default function Signup() {
             )}
           </div>
 
-          {/* Submit Button */}
           <button type="submit" className="btn btn-primary w-full">
             Register
           </button>

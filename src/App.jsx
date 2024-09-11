@@ -12,7 +12,8 @@ import EditPost from "./pages/EditPost";
 import Logout from "./pages/Logout";
 import Dashboard from "./pages/Dashboard";
 import AuthorPosts from "./pages/AuthorPosts";
-import './index.css';
+import DeletePost from "./pages/DeletePost";
+import "./index.css";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="authors" element={<Authors />} />
         <Route path="create" element={<CreatePost />} />
         <Route path="posts/:id/edit" element={<EditPost />} />
+        <Route path="posts/:id/delete" element={<DeletePost />} />
         <Route path="posts/user/:id" element={<AuthorPosts />} />
         |<Route path="myposts/:id" element={<Dashboard />} />
         <Route path="logot" element={<Logout />} />
