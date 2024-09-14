@@ -1,111 +1,149 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBlog } from "@fortawesome/free-solid-svg-icons";
+import { IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 export default function Login() {
-  const [userData, setUserData] = useState({
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("userName") !== null;
+
+    if (isLoggedIn) {
+      navigate("/Home");
+    }
+  }, [navigate]);
+
+  const [values, setValues] = useState({
     email: "",
     password: "",
+    showPassword: false,
   });
 
-  const [errors, setErrors] = useState({});
-
-  const changeInputHandler = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-    validateField(name, value);
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
   };
 
-  const validateField = (name, value) => {
-    const newErrors = { ...errors };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
-    switch (name) {
-      case "email":
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        newErrors.email = emailRegex.test(value) ? "" : "Invalid email format";
-        break;
-      case "password":
-        newErrors.password =
-          value.length >= 6 ? "" : "Password must be at least 6 characters";
-        break;
-      default:
-        break;
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    if (!values.email) {
+      toast.warning("Email is required.");
+      return;
     }
 
-    setErrors(newErrors);
-  };
+    if (!values.password) {
+      toast.warning("Password is required.");
+      return;
+    }
 
-  const validate = () => {
-    const newErrors = {};
-    if (!userData.email) newErrors.email = "Email is required";
-    if (!userData.password) newErrors.password = "Password is required";
-    if (userData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    return newErrors;
-  };
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/users?email=${values.email}&password=${values.password}`
+      );
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Login data:", userData);
-    } else {
-      setErrors(validationErrors);
+      if (response.data.length > 0) {
+        const user = response.data[0];
+        localStorage.setItem("userName", user.userName);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("userImage", user.userImage);
+        toast.success("Login successful!");
+        navigate("/Home");
+      } else {
+        toast.error("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      toast.error("An error occurred during login");
     }
   };
 
   return (
-    <section className="bg-gray-100 min-h-screen flex items-center justify-center py-8">
-      <div className="max-w-md w-full p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form onSubmit={submitHandler} className="space-y-4">
-          <div className="relative">
-            <input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={userData.email}
-              onChange={changeInputHandler}
-              className={`input input-bordered w-full ${
-                errors.email ? "border-red-500" : ""
-              }`}
+    <>
+      <ToastContainer />
+      <div className="bg-green-900 h-screen flex items-center justify-center">
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+          <div className="flex items-center mb-6">
+            <FontAwesomeIcon
+              className="text-green-900 text-3xl mr-2"
+              icon={faBlog}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm absolute bottom-0 left-0">
-                {errors.email}
-              </p>
-            )}
+            <h1 className="text-2xl font-bold text-gray-900">BLOG</h1>
           </div>
+          <h2 className="text-lg font-semibold mb-4">Welcome back!</h2>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="flex flex-col">
+              <label htmlFor="email" className="text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                type="text"
+                className="border rounded-lg p-2"
+                placeholder="Email"
+                value={values.email}
+                onChange={(e) =>
+                  setValues({ ...values, email: e.target.value })
+                }
+              />
+            </div>
 
-          <div className="relative">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={userData.password}
-              onChange={changeInputHandler}
-              className={`input input-bordered w-full ${
-                errors.password ? "border-red-500" : ""
-              }`}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm absolute bottom-0 left-0">
-                {errors.password}
-              </p>
-            )}
-          </div>
+            <div className="flex flex-col">
+              <label htmlFor="password" className="text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={values.showPassword ? "text" : "password"}
+                  className="border rounded-lg p-2 w-full"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={(e) =>
+                    setValues({ ...values, password: e.target.value })
+                  }
+                />
+                <IconButton
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </div>
+            </div>
 
-          <button type="submit" className="btn btn-primary w-full">
-            Login
-          </button>
+            <button
+              type="submit"
+              className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition"
+            >
+              Login
+            </button>
+          </form>
 
-          <p className="text-center mt-4 text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-500 hover:underline">
-              Sign Up
+          <p className="text-center text-sm text-gray-500 mt-4">
+            New to BLOG?{" "}
+            <Link
+              to="/signUp"
+              className="font-semibold text-green-600 hover:text-green-500"
+            >
+              Create new account
             </Link>
           </p>
-        </form>
+        </div>
       </div>
-    </section>
+    </>
   );
 }

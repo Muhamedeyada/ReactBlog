@@ -1,0 +1,98 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "userName": "test",
+      "userImage": "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
+      "email": "dsad@gmail.com",
+      "password": "sosa1234"
+    },
+    {
+      "id": "2248",
+      "userName": "sdfsd",
+      "userImage": "gfhhf",
+      "email": "momo@yahoo.com",
+      "password": "123456789"
+    },
+    {
+      "id": "03b1",
+      "userName": "adasda",
+      "userImage": "https://images.pexels.com/photos/459976/pexels-photo-459976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "email": "momoo@yahoo.com",
+      "password": "123456789"
+    },
+    {
+      "id": "e6d9",
+      "userName": "asd frds",
+      "userImage": "https://images.pexels.com/photos/36029/aroni-arsa-children-little.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "email": "halabia@yahoo.com",
+      "password": "123456789"
+    },
+    {
+      "id": "4e17",
+      "userName": "ssss@yahoo.com",
+      "userImage": "https://images.pexels.com/photos/1973270/pexels-photo-1973270.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "email": "ssss@yahoo.com",
+      "password": "123456789"
+    },
+    {
+      "id": "918d",
+      "userName": "momoo",
+      "userImage": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fplayers.fcbarcelona.com%2Fen%2Fplayer%2F548-messi-lionel-andres-messi-cuccitini&psig=AOvVaw2gmZzS0ITp5PxFHTkus15I&ust=1726418169580000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCODI5v_uwogDFQAAAAAdAAAAABAJ",
+      "email": "momoooo@yahoo.com",
+      "password": "momoo@yahoo.com"
+    }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "title": "Facts About Business That Will Help You Success",
+      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/joel-filipe-175776-unsplash-scaled-e1662276870905-875x440.jpg",
+      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+    },
+    {
+      "id": "2",
+      "title": "Your Light Is About To Stop Being Relevant",
+      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/david-van-dijk-255503-unsplash-875x440.jpg",
+      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+    },
+    {
+      "id": "3",
+      "title": "10 Ways To Immediately Start Selling Furniture",
+      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/kaizen-nguy-n-1066357-unsplash-875x440.jpg",
+      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+    },
+    {
+      "id": "4",
+      "title": "What Can You Do About Fashion Right Now",
+      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/thought-catalog-640705-unsplash-875x440.jpg",
+      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+    },
+    {
+      "title": "test7",
+      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/loren-gu-146832-unsplash-875x440.jpg",
+      "description": "fdsfdsf",
+      "id": "d388"
+    },
+    {
+      "id": "43f3",
+      "title": "dfsdf",
+      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/grant-ritchie-1154815-unsplash-875x440.jpg",
+      "description": "bbbbb"
+    },
+    {
+      "title": "sadasd",
+      "image": "https://images.pexels.com/photos/36029/aroni-arsa-children-little.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "description": "sssssssssssssssssssssssddddddddddddddd",
+      "user_email": "ssss@yahoo.com",
+      "id": "d6d3"
+    },
+    {
+      "title": "downnnnnn",
+      "image": "https://images.pexels.com/photos/459976/pexels-photo-459976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "description": "dsadasdsaddddddddddd",
+      "user_email": "halabia@yahoo.com",
+      "id": "c3d5"
+    }
+  ]
+}

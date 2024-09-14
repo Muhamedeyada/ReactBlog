@@ -1,39 +1,28 @@
-import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import ErrorPage from "./pages/ErrorPage";
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import SignIn from "./pages/signIn";
+import Login from "./pages/login";
 import Home from "./pages/Home";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import UserProfile from "./pages/UserProfile";
-import Authors from "./pages/Authors";
-import CreatePost from "./pages/CreatePost";
-import PostDetial from "./pages/PostDetial";
-import EditPost from "./pages/EditPost";
-import Logout from "./pages/Logout";
-import Dashboard from "./pages/Dashboard";
-import AuthorPosts from "./pages/AuthorPosts";
-import DeletePost from "./pages/DeletePost";
-import "./index.css";
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="posts/:id" element={<PostDetial />} />
-        <Route path="login" element={<Login />} />
-        <Route path="profile/:id" element={<UserProfile />} />
-        <Route path="authors" element={<Authors />} />
-        <Route path="create" element={<CreatePost />} />
-        <Route path="posts/:id/edit" element={<EditPost />} />
-        <Route path="posts/:id/delete" element={<DeletePost />} />
-        <Route path="posts/user/:id" element={<AuthorPosts />} />
-        |<Route path="myposts/:id" element={<Dashboard />} />
-        <Route path="logot" element={<Logout />} />
-      </Route>
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
+    <>
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />}></Route>
+          <Route path="/Home" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<SignIn />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
+
 export default App;
