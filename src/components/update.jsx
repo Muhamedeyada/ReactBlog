@@ -25,7 +25,7 @@ export default function UpdateComponent({ postId }) {
 
   const getPost = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3000/posts/${id}`);
+      const response = await axios.get(`/api/posts/${id}`);
       const fetchedPost = response.data;
       setPost({
         title: fetchedPost.title,
@@ -48,7 +48,7 @@ export default function UpdateComponent({ postId }) {
   const handleUpdate = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/posts/${postId}`, {
+      await axios.put(`/api/posts/${postId}`, {
         ...post,
         user_email: localStorage.getItem("email"),
       });

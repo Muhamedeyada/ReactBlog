@@ -9,7 +9,7 @@ export default function DeleteComponent({ postId, onDelete }) {
     if (!window.confirm("Are you sure you want to delete this story?")) return;
     
     try {
-      await axios.delete(`http://localhost:3000/posts/${postId}`);
+      await axios.delete(`/api/posts/${postId}`);
       onDelete(postId);
       toast.success("Story deleted successfully");
     } catch (error) {

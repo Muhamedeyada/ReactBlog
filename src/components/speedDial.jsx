@@ -34,7 +34,7 @@ export default function OpenIconSpeedDial({ onPostSuccess }) {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/posts", {
+      const response = await axios.post("/api/posts", {
         title: blogTitle,
         image: blogImg,
         description: description,

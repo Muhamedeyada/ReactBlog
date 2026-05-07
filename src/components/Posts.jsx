@@ -15,7 +15,7 @@ export default function Posts() {
 
   const getAllPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/posts");
+      const response = await axios.get("/api/posts");
       const fetchedPosts = response.data;
       setPosts(fetchedPosts.reverse());
     } catch (error) {
