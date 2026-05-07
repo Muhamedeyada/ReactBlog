@@ -1,228 +1,153 @@
 import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
-import { Modal, Typography, Input, InputAdornment } from "@mui/material";
+import { Modal, Typography, IconButton } from "@mui/material";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import EditIcon from "@mui/icons-material/Edit";
+import CloseIcon from "@mui/icons-material/Close";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faInfo, faImage } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faInfo, faImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 export default function OpenIconSpeedDial({ onPostSuccess }) {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
+  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-
-    setBlogTitleValues({ blogTitle: "" });
-    setBlogImageValues({ blogImg: "" });
-    setDescriptionValues({ description: "" });
+    setBlogTitle("");
+    setBlogImg("");
+    setDescription("");
   };
 
-  const [blogTitleValues, setBlogTitleValues] = useState({
-    blogTitle: "",
-  });
-
-  const handleBlogTitleChange = (event) => {
-    setBlogTitleValues({
-      ...blogTitleValues,
-      blogTitle: event.target.value,
-    });
-  };
-
-  const [blogImageValues, setBlogImageValues] = useState({
-    blogImg: "",
-  });
-
-  const handleBlogImageChange = (event) => {
-    setBlogImageValues({
-      ...blogImageValues,
-      blogImg: event.target.value,
-    });
-  };
-
-  const [descriptionValues, setDescriptionValues] = useState({
-    description: "",
-  });
-
-  const handleDescriptionChange = (event) => {
-    setDescriptionValues({
-      ...descriptionValues,
-      description: event.target.value,
-    });
-  };
-
-  const [blogData, setBlogData] = useState(null);
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogImg, setBlogImg] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!blogTitleValues.blogTitle) {
-      toast.warning("Title is required.");
-      return;
-    }
-
-    if (!blogImageValues.blogImg) {
-      toast.warning("Image is required.");
-      return;
-    }
-
-    if (!descriptionValues.description) {
-      toast.warning("Description is required.");
+    if (!blogTitle || !blogImg || !description) {
+      toast.warning("Please fill in all fields.");
       return;
     }
 
     try {
       const response = await axios.post("http://localhost:3000/posts", {
-        title: blogTitleValues.blogTitle,
-        image: blogImageValues.blogImg,
-        description: descriptionValues.description,
+        title: blogTitle,
+        image: blogImg,
+        description: description,
         user_email: localStorage.getItem("email"),
       });
 
       const blog = response.data;
-      setBlogData(blog);
-
-      const existingPostIds =
-        JSON.parse(sessionStorage.getItem("postId")) || [];
-      existingPostIds.push(blog.id);
-      sessionStorage.setItem("postId", JSON.stringify(existingPostIds));
-
-      toast.success("Post blog successfull");
+      toast.success("Story published successfully! ✨");
       handleClose();
 
       if (onPostSuccess) {
         onPostSuccess(blog);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Post blog failed. Please try again.");
+      console.error(error);
+      toast.error("Failed to publish story.");
     }
-  };
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 500,
-    bgcolor: "background.green",
-    border: "3px solid green",
-    borderRadius: "25px",
-    boxShadow: 24,
-    p: 4,
   };
 
   return (
     <>
-      <ToastContainer />
-      <div>
-        <Box
+      <div className="fixed bottom-8 right-8 z-50">
+        <SpeedDial
+          ariaLabel="Add story"
+          sx={{ '& .MuiFab-primary': { bgcolor: '#15803d', '&:hover': { bgcolor: '#14532d' }, width: 64, height: 64 } }}
+          icon={<SpeedDialIcon openIcon={<EditIcon />} />}
           onClick={handleOpen}
-          sx={{
-            transform: "translateZ(0px)",
-            flexGrow: 1,
-            position: "fixed",
-            bottom: 25,
-            right: 20,
-          }}
-        >
-          <SpeedDial
-            ariaLabel=""
-            sx={{
-              position: "absolute",
-              bottom: 16,
-              right: 16,
-            }}
-            icon={<SpeedDialIcon openIcon={<EditIcon />} />}
-            FabProps={{
-              sx: {
-                bgcolor: "green",
-                "&:hover": {
-                  bgcolor: "black",
-                },
-              },
-            }}
-          ></SpeedDial>
-        </Box>
-
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <form onSubmit={handleSubmit}>
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                ✨ Share your blog ✨
-              </Typography>
-              <Typography id="modal-modal-title" component="h5">
-                Blog Info
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <label htmlFor="blogTitle">Blog Title</label>
-              </Typography>
-              <Input
-                type="text"
-                placeholder="Title"
-                name="blogTitle"
-                value={blogTitleValues.blogTitle}
-                onChange={handleBlogTitleChange}
-                className="input border-b border-green-950 w-full"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faPen} />
-                  </InputAdornment>
-                }
-              />
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <label htmlFor="blogImg">Blog Image</label>
-              </Typography>
-              <Input
-                type="text"
-                placeholder="URL image"
-                name="blogImg"
-                value={blogImageValues.blogImg}
-                onChange={handleBlogImageChange}
-                className="input border-b border-green-950 w-full"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faImage} />
-                  </InputAdornment>
-                }
-              />
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <label htmlFor="blogDescription">Description</label>
-              </Typography>
-              <Input
-                type="text"
-                placeholder="Description"
-                name="blogDescription"
-                value={descriptionValues.description}
-                onChange={handleDescriptionChange}
-                className="input border-b border-green-950 w-full"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faInfo} />
-                  </InputAdornment>
-                }
-              />
-              <input
-                className="bg-green-700 text-slate-50 h-10 w-full mt-2 rounded-3xl hover:bg-green-950 hover:shadow"
-                type="submit"
-                value="Post🚀"
-              />
-            </Box>
-          </form>
-        </Modal>
+        />
       </div>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className="flex items-center justify-center p-4"
+      >
+        <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-xl overflow-hidden relative border border-gray-100">
+          <div className="absolute top-6 right-6">
+            <IconButton onClick={handleClose} className="hover:bg-red-50 hover:text-red-600 transition-colors">
+              <CloseIcon />
+            </IconButton>
+          </div>
+
+          <div className="p-10 md:p-12">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="bg-green-100 p-3 rounded-2xl text-green-700">
+                <FontAwesomeIcon icon={faPen} size="lg" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Share Your Story</h2>
+                <p className="text-sm text-gray-500 font-medium">Draft your next masterpiece</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Story Title</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                    <FontAwesomeIcon icon={faPen} />
+                  </div>
+                  <input
+                    type="text"
+                    className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 transition-all outline-none"
+                    placeholder="Enter a catchy title..."
+                    value={blogTitle}
+                    onChange={(e) => setBlogTitle(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Cover Image URL</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                    <FontAwesomeIcon icon={faImage} />
+                  </div>
+                  <input
+                    type="text"
+                    className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 transition-all outline-none"
+                    placeholder="https://images.unsplash.com/..."
+                    value={blogImg}
+                    onChange={(e) => setBlogImg(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Description</label>
+                <div className="relative group">
+                  <div className="absolute top-4 left-0 pl-4 pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                    <FontAwesomeIcon icon={faInfo} />
+                  </div>
+                  <textarea
+                    rows="4"
+                    className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 transition-all outline-none resize-none"
+                    placeholder="Tell your story..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-green-700 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-800 hover:shadow-lg transition-all flex items-center justify-center space-x-3 transform active:scale-[0.98]"
+              >
+                <span>Publish Story</span>
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </button>
+            </form>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

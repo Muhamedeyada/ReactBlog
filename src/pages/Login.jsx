@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBlog } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { faBlog, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 export default function Login() {
@@ -13,7 +10,6 @@ export default function Login() {
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("userName") !== null;
-
     if (isLoggedIn) {
       navigate("/Home");
     }
@@ -25,15 +21,11 @@ export default function Login() {
     showPassword: false,
   });
 
-  const handleClickShowPassword = () => {
+  const togglePasswordVisibility = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
     });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   const handleLogin = async (event) => {
@@ -59,7 +51,7 @@ export default function Login() {
         localStorage.setItem("userName", user.userName);
         localStorage.setItem("email", user.email);
         localStorage.setItem("userImage", user.userImage);
-        toast.success("Login successful!");
+        toast.success("Welcome back!");
         navigate("/Home");
       } else {
         toast.error("Invalid email or password");
@@ -71,79 +63,83 @@ export default function Login() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4">
       <ToastContainer />
-      <div className="bg-green-900 h-screen flex items-center justify-center">
-        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-          <div className="flex items-center mb-6">
-            <FontAwesomeIcon
-              className="text-green-900 text-3xl mr-2"
-              icon={faBlog}
-            />
-            <h1 className="text-2xl font-bold text-gray-900">BLOG</h1>
+      
+      {/* Decorative blobs */}
+      <div className="fixed top-0 left-0 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2 animate-blob"></div>
+      <div className="fixed bottom-0 right-0 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 translate-x-1/2 translate-y-1/2 animate-blob animation-delay-2000"></div>
+
+      <div className="w-full max-w-lg bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/50 relative z-10">
+        <div className="p-10 md:p-14">
+          <div className="flex flex-col items-center mb-10 text-center">
+            <div className="bg-green-700 p-4 rounded-3xl shadow-lg shadow-green-200 mb-6">
+              <FontAwesomeIcon icon={faBlog} className="text-white text-4xl" />
+            </div>
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
+              Welcome Back
+            </h1>
+            <p className="text-gray-500 font-medium">Log in to your account to continue</p>
           </div>
-          <h2 className="text-lg font-semibold mb-4">Welcome back!</h2>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                id="email"
-                type="text"
-                className="border rounded-lg p-2"
-                placeholder="Email"
-                value={values.email}
-                onChange={(e) =>
-                  setValues({ ...values, email: e.target.value })
-                }
-              />
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600 transition-colors">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </div>
+                <input
+                  type="email"
+                  className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="name@example.com"
+                  value={values.email}
+                  onChange={(e) => setValues({ ...values, email: e.target.value })}
+                />
+              </div>
             </div>
 
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-gray-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Password</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600 transition-colors">
+                  <FontAwesomeIcon icon={faLock} />
+                </div>
                 <input
-                  id="password"
                   type={values.showPassword ? "text" : "password"}
-                  className="border rounded-lg p-2 w-full"
-                  placeholder="Password"
+                  className="block w-full pl-11 pr-12 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="••••••••"
                   value={values.password}
-                  onChange={(e) =>
-                    setValues({ ...values, password: e.target.value })
-                  }
+                  onChange={(e) => setValues({ ...values, password: e.target.value })}
                 />
-                <IconButton
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-600 transition-colors"
                 >
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
+                  <FontAwesomeIcon icon={values.showPassword ? faEyeSlash : faEye} />
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition"
+              className="w-full bg-green-700 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-800 hover:shadow-lg hover:shadow-green-200 transition-all transform active:scale-[0.98] mt-4"
             >
-              Login
+              Sign In
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-4">
-            New to BLOG?{" "}
-            <Link
-              to="/signUp"
-              className="font-semibold text-green-600 hover:text-green-500"
-            >
-              Create new account
-            </Link>
-          </p>
+          <div className="mt-10 text-center">
+            <p className="text-gray-500 font-medium">
+              Don't have an account?{" "}
+              <Link to="/signUp" className="text-green-700 font-bold hover:underline">
+                Create one now
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

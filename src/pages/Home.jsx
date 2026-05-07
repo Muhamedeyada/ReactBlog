@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import NavBar from "../components/navBar.jsx";
-import Posts from "../components/posts.jsx";
+import NavBar from "../components/Navbar.jsx";
+import Posts from "../components/Posts.jsx";
 import Dial from "../components/speedDial.jsx";
-import Footer from "../components/footer.jsx";
+import Footer from "../components/Footer.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Pagination from "../components/pagination.jsx";

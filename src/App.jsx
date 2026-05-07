@@ -1,9 +1,9 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import SignIn from "./pages/signIn";
-import Login from "./pages/login";
-import Home from "./pages/Home";
+import SignIn from "./pages/signIn.jsx";
+import Login from "./pages/Login.jsx";
+import Home from "./pages/Home.jsx";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";

@@ -1,34 +1,30 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Stack from "@mui/material/Stack";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function DeleteComponent({ postId, onDelete }) {
   const deletePost = async () => {
+    if (!window.confirm("Are you sure you want to delete this story?")) return;
+    
     try {
       await axios.delete(`http://localhost:3000/posts/${postId}`);
       onDelete(postId);
-      toast.success("Deleted post successfull");
+      toast.success("Story deleted successfully");
     } catch (error) {
       console.log(error);
-      toast.error("Deleted fail");
+      toast.error("Failed to delete story");
     }
   };
+
   return (
-    <div className=" bottom-4 relative">
-      <Stack direction="row" spacing={2}>
-        <Button
-          variant="outlined"
-          onClick={deletePost}
-          color="error"
-          startIcon={<DeleteIcon />}
-        >
-          Delete
-        </Button>
-      </Stack>
-    </div>
+    <button
+      onClick={deletePost}
+      className="p-2 text-gray-400 hover:text-red-600 transition-colors rounded-full hover:bg-red-50"
+      title="Delete Story"
+    >
+      <FontAwesomeIcon icon={faTrashAlt} />
+    </button>
   );
 }

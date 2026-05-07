@@ -1,14 +1,10 @@
 import React from "react";
-import Button from "@mui/material/Button";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import Stack from "@mui/material/Stack";
-import { Modal, Typography, Input, InputAdornment } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Modal, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faInfo, faImage } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faInfo, faImage, faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function UpdateComponent({ postId }) {
   const [open, setOpen] = React.useState(false);
@@ -31,7 +27,6 @@ export default function UpdateComponent({ postId }) {
     try {
       const response = await axios.get(`http://localhost:3000/posts/${id}`);
       const fetchedPost = response.data;
-
       setPost({
         title: fetchedPost.title,
         image: fetchedPost.image,
@@ -52,131 +47,116 @@ export default function UpdateComponent({ postId }) {
 
   const handleUpdate = async (event) => {
     event.preventDefault();
-
     try {
-      await axios.put(`http://localhost:3000/posts/${postId}`, post);
-      toast.success("Post updated successfully");
+      await axios.put(`http://localhost:3000/posts/${postId}`, {
+        ...post,
+        user_email: localStorage.getItem("email"),
+      });
+      toast.success("Story updated successfully ✨");
       handleClose();
+      // Optional: window.location.reload() or a more React-way to refresh
+      setTimeout(() => window.location.reload(), 1000);
     } catch (error) {
-      toast.error("Failed to update post. Please try again.");
+      toast.error("Failed to update story.");
     }
   };
 
   return (
     <>
-      <ToastContainer />
-      <div className="relative bottom-4">
-        <Stack direction="row" spacing={2}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<EditNoteIcon />}
-            onClick={handleOpen}
-            className="bg-purple-600 text-white hover:bg-purple-700 border-none"
-          >
-            Edit
-          </Button>
-        </Stack>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-title"
-          aria-describedby="modal-description"
-        >
-          <Box
-            component="form"
-            onSubmit={handleUpdate}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-lg shadow-lg w-full max-w-md"
-          >
-            <Typography
-              id="modal-title"
-              variant="h6"
-              component="h2"
-              className="text-xl font-semibold mb-4"
-            >
-              ✨ Edit Your Blog ✨
-            </Typography>
-            <Typography
-              id="modal-description"
-              variant="body1"
-              className="mb-2 font-medium"
-            >
-              Blog Info
-            </Typography>
-            <div className="mb-4">
-              <label
-                htmlFor="title"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Blog Title
-              </label>
-              <Input
-                type="text"
-                placeholder="Title"
-                name="title"
-                value={post.title}
-                onChange={handleInputChange}
-                className="w-full border-gray-300 rounded-md shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faPen} className="text-gray-400" />
-                  </InputAdornment>
-                }
-              />
+      <button
+        onClick={handleOpen}
+        className="p-2 text-gray-400 hover:text-green-600 transition-colors rounded-full hover:bg-green-50"
+        title="Edit Story"
+      >
+        <FontAwesomeIcon icon={faEdit} />
+      </button>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className="flex items-center justify-center p-4"
+      >
+        <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-xl overflow-hidden relative border border-gray-100">
+          <div className="absolute top-6 right-6">
+            <IconButton onClick={handleClose} className="hover:bg-red-50 hover:text-red-600 transition-colors">
+              <CloseIcon />
+            </IconButton>
+          </div>
+
+          <div className="p-10 md:p-12">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="bg-green-100 p-3 rounded-2xl text-green-700">
+                <FontAwesomeIcon icon={faEdit} size="lg" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Edit Story</h2>
+                <p className="text-sm text-gray-500 font-medium">Refine your masterpiece</p>
+              </div>
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="image"
-                className="block text-sm font-medium text-gray-700"
+
+            <form onSubmit={handleUpdate} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Story Title</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                    <FontAwesomeIcon icon={faPen} />
+                  </div>
+                  <input
+                    type="text"
+                    name="title"
+                    className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 transition-all outline-none"
+                    placeholder="Enter a catchy title..."
+                    value={post.title}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Cover Image URL</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                    <FontAwesomeIcon icon={faImage} />
+                  </div>
+                  <input
+                    type="text"
+                    name="image"
+                    className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 transition-all outline-none"
+                    placeholder="https://images.unsplash.com/..."
+                    value={post.image}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Description</label>
+                <div className="relative group">
+                  <div className="absolute top-4 left-0 pl-4 pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                    <FontAwesomeIcon icon={faInfo} />
+                  </div>
+                  <textarea
+                    name="description"
+                    rows="4"
+                    className="block w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 transition-all outline-none resize-none"
+                    placeholder="Tell your story..."
+                    value={post.description}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-green-700 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-800 hover:shadow-lg transition-all flex items-center justify-center space-x-3 transform active:scale-[0.98]"
               >
-                Blog Image
-              </label>
-              <Input
-                type="text"
-                placeholder="Image URL"
-                name="image"
-                value={post.image}
-                onChange={handleInputChange}
-                className="w-full border-gray-300 rounded-md shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faImage} className="text-gray-400" />
-                  </InputAdornment>
-                }
-              />
-            </div>
-            <div className="mb-6">
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Description
-              </label>
-              <Input
-                type="text"
-                placeholder="Description"
-                name="description"
-                value={post.description}
-                onChange={handleInputChange}
-                className="w-full border-gray-300 rounded-md shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <FontAwesomeIcon icon={faInfo} className="text-gray-400" />
-                  </InputAdornment>
-                }
-              />
-            </div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2"
-            >
-              Save Changes 🚀
-            </Button>
-          </Box>
-        </Modal>
-      </div>
+                <span>Save Changes</span>
+                <FontAwesomeIcon icon={faSave} />
+              </button>
+            </form>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

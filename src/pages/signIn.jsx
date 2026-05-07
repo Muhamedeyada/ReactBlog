@@ -2,11 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBlog, faImage } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { faBlog, faImage, faUser, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -20,16 +17,10 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleShowToast = (message) => {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-    });
+    toast.error(message);
   };
 
-  const handleClickShowPassword = (type) => {
+  const togglePasswordVisibility = (type) => {
     if (type === "password") {
       setShowPassword(!showPassword);
     } else if (type === "confirmPassword") {
@@ -37,14 +28,9 @@ export default function Register() {
     }
   };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validate form fields
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       handleShowToast("Invalid email address");
       return;
@@ -61,7 +47,6 @@ export default function Register() {
     }
 
     try {
-      // Check if email already exists
       const checkEmailResponse = await axios.get(
         `http://localhost:3000/users?email=${email}`
       );
@@ -70,137 +55,159 @@ export default function Register() {
         return;
       }
 
-      // Send registration request
-      const response = await axios.post("http://localhost:3000/users", {
+      await axios.post("http://localhost:3000/users", {
         userName,
         userImage,
         email,
         password,
       });
 
-      console.log(response); // Log response for debugging
-      toast.success("Registration successful");
+      toast.success("Registration successful!");
       navigate("/login");
     } catch (error) {
-      console.error("Registration error:", error); // Log errors for debugging
+      console.error("Registration error:", error);
       handleShowToast("Registration failed. Please try again.");
     }
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 py-12">
       <ToastContainer />
-      <div className="bg-green-900 min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-6 space-y-4">
-          <div className="flex items-center space-x-4 mb-4">
-            <FontAwesomeIcon
-              icon={faBlog}
-              className="text-white text-2xl bg-green-900 rounded-full p-2"
-            />
-            <h1 className="text-2xl font-semibold text-green-900">BLOG</h1>
+      
+      {/* Decorative background */}
+      <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-1/2 translate-y-1/2"></div>
+
+      <div className="w-full max-w-xl bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/50 relative z-10">
+        <div className="p-10 md:p-12">
+          <div className="flex flex-col items-center mb-8 text-center">
+            <div className="bg-green-700 p-4 rounded-3xl shadow-lg shadow-green-200 mb-6">
+              <FontAwesomeIcon icon={faBlog} className="text-white text-3xl" />
+            </div>
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">
+              Create Account
+            </h1>
+            <p className="text-gray-500 font-medium">Join our community of storytellers</p>
           </div>
-          <h2 className="text-xl font-bold">Welcome to our blog</h2>
-          <p className="text-gray-600">Let's get started!</p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex items-center border border-gray-300 rounded-md p-2">
-              <FontAwesomeIcon
-                icon={faBlog}
-                className="text-gray-500 text-lg"
-              />
-              <input
-                type="text"
-                className="ml-2 flex-1 border-none focus:ring-0"
-                placeholder="Username"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
+
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Username</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                  <FontAwesomeIcon icon={faUser} />
+                </div>
+                <input
+                  type="text"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="johndoe"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <div className="flex items-center border border-gray-300 rounded-md p-2">
-              <FontAwesomeIcon
-                icon={faImage}
-                className="text-gray-500 text-lg"
-              />
-              <input
-                type="text"
-                className="ml-2 flex-1 border-none focus:ring-0"
-                placeholder="Your image URL"
-                value={userImage}
-                onChange={(e) => setUserImage(e.target.value)}
-                required
-              />
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </div>
+                <input
+                  type="email"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <div className="flex items-center border border-gray-300 rounded-md p-2">
-              <FontAwesomeIcon
-                icon={faImage}
-                className="text-gray-500 text-lg"
-              />
-              <input
-                type="text"
-                className="ml-2 flex-1 border-none focus:ring-0"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Profile Image URL</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                  <FontAwesomeIcon icon={faImage} />
+                </div>
+                <input
+                  type="text"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="https://example.com/photo.jpg"
+                  value={userImage}
+                  onChange={(e) => setUserImage(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <div className="flex items-center border border-gray-300 rounded-md p-2">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="ml-2 flex-1 border-none focus:ring-0"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <IconButton
-                onClick={() => handleClickShowPassword("password")}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Password</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                  <FontAwesomeIcon icon={faLock} />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="block w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("password")}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-600 transition-colors"
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center border border-gray-300 rounded-md p-2">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                className="ml-2 flex-1 border-none focus:ring-0"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-              <IconButton
-                onClick={() => handleClickShowPassword("confirmPassword")}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">Confirm Password</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                  <FontAwesomeIcon icon={faLock} />
+                </div>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  className="block w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("confirmPassword")}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-600 transition-colors"
+                >
+                  <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-2 bg-green-700 text-white rounded-full hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="md:col-span-2 w-full bg-green-700 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-800 hover:shadow-lg transition-all transform active:scale-[0.98] mt-4"
             >
               Sign Up
             </button>
           </form>
-          <p className="text-center text-sm text-gray-500">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-green-600 hover:text-green-500 font-semibold"
-            >
-              Log In
-            </Link>
-          </p>
+
+          <div className="mt-8 text-center">
+            <p className="text-gray-500 font-medium">
+              Already have an account?{" "}
+              <Link to="/login" className="text-green-700 font-bold hover:underline">
+                Log In
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
