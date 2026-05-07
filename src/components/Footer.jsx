@@ -4,30 +4,30 @@ import { faBlog, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
+    <footer className="bg-[#020617] border-t border-white/5 pt-20 pb-10">
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center text-center">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="bg-green-700 p-2 rounded-xl">
-              <FontAwesomeIcon icon={faBlog} className="text-white text-xl" />
+          <div className="flex items-center space-x-3 mb-8 group cursor-pointer">
+            <div className="bg-indigo-600 p-2.5 rounded-2xl group-hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/20">
+              <FontAwesomeIcon icon={faBlog} className="text-white text-2xl" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-green-900">
-              BLOG<span className="text-green-600">.</span>
+            <span className="text-2xl font-black tracking-tight text-white uppercase">
+              BLOG<span className="text-indigo-500">.</span>
             </span>
           </div>
           
-          <p className="max-w-md text-gray-500 font-medium mb-8">
-            A platform for sharing stories, ideas, and experiences with the world. Join our community and start your journey today.
+          <p className="max-w-md text-slate-500 font-medium mb-10 leading-relaxed">
+            A premium platform for sharing digital transmissions, cosmic ideas, and profound experiences with the nexus.
           </p>
           
-          <div className="h-px w-full max-w-lg bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-8"></div>
+          <div className="h-px w-full max-w-2xl bg-gradient-to-r from-transparent via-slate-800 to-transparent mb-10"></div>
           
-          <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-4xl text-sm text-gray-500 font-medium space-y-4 md:space-y-0">
-            <p>
-              © {new Date().getFullYear()} BLOG. All rights reserved.
+          <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-5xl text-[11px] text-slate-600 font-black tracking-[0.2em] uppercase space-y-6 md:space-y-0">
+            <p className="hover:text-slate-400 transition-colors">
+              © {new Date().getFullYear()} NEXUS BLOG MODULE. ALL RIGHTS RESERVED.
             </p>
-            <p className="flex items-center">
-              Made with <FontAwesomeIcon icon={faHeart} className="mx-1.5 text-red-500" /> by Mohamed Eyada
+            <p className="flex items-center group">
+              DEVELOPED WITH <FontAwesomeIcon icon={faHeart} className="mx-2 text-red-500/60 group-hover:text-red-500 transition-colors animate-pulse" /> BY MOHAMED EYADA
             </p>
           </div>
         </div>

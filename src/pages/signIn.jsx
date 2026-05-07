@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBlog, faImage, faUser, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faBlog, faImage, faUser, faEnvelope, faLock, faEye, faEyeSlash, faLink } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function Register() {
@@ -15,6 +15,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [imgPreviewError, setImgPreviewError] = useState(false);
 
   const handleShowToast = (message) => {
     toast.error(message);
@@ -62,45 +63,62 @@ export default function Register() {
         password,
       });
 
-      toast.success("Registration successful!");
+      toast.success("Identity initialized successfully! ✨");
       navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
-      handleShowToast("Registration failed. Please try again.");
+      handleShowToast("Initialization failed. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 py-12">
-      <ToastContainer />
+    <div className="min-h-screen bg-mesh flex items-center justify-center p-4 py-20 relative overflow-hidden">
+      <ToastContainer theme="dark" />
       
-      {/* Decorative background */}
-      <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-1/2 translate-y-1/2"></div>
+      {/* Decorative background blobs */}
+      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-violet-600/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 translate-x-1/2 translate-y-1/2"></div>
 
-      <div className="w-full max-w-xl bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/50 relative z-10">
-        <div className="p-10 md:p-12">
-          <div className="flex flex-col items-center mb-8 text-center">
-            <div className="bg-green-700 p-4 rounded-3xl shadow-lg shadow-green-200 mb-6">
+      <div className="w-full max-w-2xl bg-slate-900/40 backdrop-blur-2xl rounded-[3rem] shadow-2xl overflow-hidden border border-white/10 relative z-10">
+        <div className="p-10 md:p-14">
+          <div className="flex flex-col items-center mb-10 text-center">
+            <div className="bg-gradient-to-br from-indigo-600 to-violet-700 p-5 rounded-[2rem] shadow-xl shadow-indigo-500/20 mb-8 transform hover:scale-110 transition-transform">
               <FontAwesomeIcon icon={faBlog} className="text-white text-3xl" />
             </div>
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight mb-2">
-              Create Account
+            <h1 className="text-4xl font-black text-white tracking-tight mb-3">
+              Initialize Profile
             </h1>
-            <p className="text-gray-500 font-medium">Join our community of storytellers</p>
+            <p className="text-slate-400 font-medium tracking-wide uppercase text-xs">Access the Dark Realm</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Username</label>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Avatar Preview Section */}
+            <div className="md:col-span-2 flex flex-col items-center mb-4">
+              <div className="w-24 h-24 rounded-full border-2 border-indigo-500/30 p-1 bg-slate-800 flex items-center justify-center overflow-hidden shadow-lg shadow-indigo-500/10">
+                {userImage && !imgPreviewError ? (
+                  <img 
+                    src={userImage} 
+                    alt="Preview" 
+                    className="w-full h-full object-cover rounded-full"
+                    onError={() => setImgPreviewError(true)}
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} className="text-slate-500 text-3xl" />
+                )}
+              </div>
+              <p className="text-[10px] text-slate-500 mt-2 uppercase font-black tracking-[0.2em]">Profile Avatar Preview</p>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-indigo-400 uppercase tracking-widest ml-1">Codename</label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400">
                   <FontAwesomeIcon icon={faUser} />
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
-                  placeholder="johndoe"
+                  className="block w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-500 outline-none transition-all"
+                  placeholder="Username"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   required
@@ -108,16 +126,16 @@ export default function Register() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-indigo-400 uppercase tracking-widest ml-1">Frequency (Email)</label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400">
                   <FontAwesomeIcon icon={faEnvelope} />
                 </div>
                 <input
                   type="email"
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
-                  placeholder="john@example.com"
+                  className="block w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-500 outline-none transition-all"
+                  placeholder="name@nexus.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -125,32 +143,35 @@ export default function Register() {
               </div>
             </div>
 
-            <div className="md:col-span-2 space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Profile Image URL</label>
+            <div className="md:col-span-2 space-y-3">
+              <label className="text-xs font-bold text-indigo-400 uppercase tracking-widest ml-1">Avatar Vector URL</label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
-                  <FontAwesomeIcon icon={faImage} />
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400">
+                  <FontAwesomeIcon icon={faLink} />
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
-                  placeholder="https://example.com/photo.jpg"
+                  className="block w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-500 outline-none transition-all"
+                  placeholder="https://visuals.source.com/vector.jpg"
                   value={userImage}
-                  onChange={(e) => setUserImage(e.target.value)}
+                  onChange={(e) => {
+                    setUserImage(e.target.value);
+                    setImgPreviewError(false);
+                  }}
                   required
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Password</label>
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-indigo-400 uppercase tracking-widest ml-1">Encryption Key</label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400">
                   <FontAwesomeIcon icon={faLock} />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="block w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  className="block w-full pl-12 pr-12 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-500 outline-none transition-all"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -159,22 +180,22 @@ export default function Register() {
                 <button
                   type="button"
                   onClick={() => togglePasswordVisibility("password")}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-600 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-5 flex items-center text-slate-500 hover:text-indigo-400 transition-colors"
                 >
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                 </button>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700 ml-1">Confirm Password</label>
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-indigo-400 uppercase tracking-widest ml-1">Verify Key</label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-green-600">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400">
                   <FontAwesomeIcon icon={faLock} />
                 </div>
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  className="block w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:border-green-600 focus:bg-white transition-all outline-none"
+                  className="block w-full pl-12 pr-12 py-4 bg-slate-800/50 border border-white/5 rounded-2xl text-white focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-500 outline-none transition-all"
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -183,7 +204,7 @@ export default function Register() {
                 <button
                   type="button"
                   onClick={() => togglePasswordVisibility("confirmPassword")}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-green-600 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-5 flex items-center text-slate-500 hover:text-indigo-400 transition-colors"
                 >
                   <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
                 </button>
@@ -192,17 +213,17 @@ export default function Register() {
 
             <button
               type="submit"
-              className="md:col-span-2 w-full bg-green-700 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-800 hover:shadow-lg transition-all transform active:scale-[0.98] mt-4"
+              className="md:col-span-2 w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white py-5 rounded-2xl font-black text-lg hover:from-indigo-500 hover:to-violet-500 shadow-xl shadow-indigo-500/20 transition-all transform active:scale-[0.98] mt-6 tracking-[0.2em] uppercase"
             >
-              Sign Up
+              INITIALIZE IDENTITY
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-500 font-medium">
-              Already have an account?{" "}
-              <Link to="/login" className="text-green-700 font-bold hover:underline">
-                Log In
+          <div className="mt-12 text-center">
+            <p className="text-slate-500 font-medium">
+              Existing member of the realm?{" "}
+              <Link to="/login" className="text-indigo-400 font-bold hover:text-indigo-300 transition-colors underline underline-offset-4 decoration-indigo-500/30">
+                Sign In
               </Link>
             </p>
           </div>

@@ -2,97 +2,68 @@
   "users": [
     {
       "id": "1",
-      "userName": "test",
-      "userImage": "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg",
-      "email": "dsad@gmail.com",
-      "password": "sosa1234"
+      "userName": "Alex Rivera",
+      "userImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100",
+      "email": "alex@nexus.io",
+      "password": "password123"
     },
     {
       "id": "2248",
-      "userName": "sdfsd",
-      "userImage": "gfhhf",
-      "email": "momo@yahoo.com",
-      "password": "123456789"
+      "userName": "Sarah Chen",
+      "userImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100",
+      "email": "sarah@nexus.io",
+      "password": "password123"
     },
     {
       "id": "03b1",
-      "userName": "adasda",
-      "userImage": "https://images.pexels.com/photos/459976/pexels-photo-459976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      "email": "momoo@yahoo.com",
-      "password": "123456789"
-    },
-    {
-      "id": "e6d9",
-      "userName": "asd frds",
-      "userImage": "https://images.pexels.com/photos/36029/aroni-arsa-children-little.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      "email": "halabia@yahoo.com",
-      "password": "123456789"
-    },
-    {
-      "id": "4e17",
-      "userName": "ssss@yahoo.com",
-      "userImage": "https://images.pexels.com/photos/1973270/pexels-photo-1973270.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      "email": "ssss@yahoo.com",
-      "password": "123456789"
-    },
-    {
-      "id": "918d",
-      "userName": "momoo",
-      "userImage": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fplayers.fcbarcelona.com%2Fen%2Fplayer%2F548-messi-lionel-andres-messi-cuccitini&psig=AOvVaw2gmZzS0ITp5PxFHTkus15I&ust=1726418169580000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCODI5v_uwogDFQAAAAAdAAAAABAJ",
-      "email": "momoooo@yahoo.com",
-      "password": "momoo@yahoo.com"
+      "userName": "Jordan Smith",
+      "userImage": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=100&h=100",
+      "email": "jordan@nexus.io",
+      "password": "password123"
     }
   ],
   "posts": [
     {
       "id": "1",
-      "title": "Facts About Business That Will Help You Success",
-      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/joel-filipe-175776-unsplash-scaled-e1662276870905-875x440.jpg",
-      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+      "title": "The Future of Artificial Intelligence in Creative Arts",
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1600",
+      "description": "As AI continues to evolve, its impact on the creative industries is profound. From generating stunning visual art to composing complex symphonies, machine learning is becoming a partner in the creative process rather than just a tool. This shift challenges our traditional definitions of authorship and creativity, opening up new horizons for artists and technologists alike.",
+      "user_email": "alex@nexus.io"
     },
     {
       "id": "2",
-      "title": "Your Light Is About To Stop Being Relevant",
-      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/david-van-dijk-255503-unsplash-875x440.jpg",
-      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+      "title": "Top 10 Sustainable Living Tips for 2024",
+      "image": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1600",
+      "description": "Living sustainably doesn't have to mean radical changes. Simple adjustments like choosing reusable products, reducing energy consumption, and supporting local ethical brands can make a significant difference. In this guide, we explore practical steps you can take today to reduce your carbon footprint and contribute to a healthier planet.",
+      "user_email": "sarah@nexus.io"
     },
     {
       "id": "3",
-      "title": "10 Ways To Immediately Start Selling Furniture",
-      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/kaizen-nguy-n-1066357-unsplash-875x440.jpg",
-      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+      "title": "Exploring the Hidden Gems of Scandinavia",
+      "image": "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=1600",
+      "description": "Beyond the well-known capitals of Oslo and Stockholm lies a landscape of untouched fjords, remote fishing villages, and vibrant coastal culture. Join us as we journey through the lesser-known parts of Scandinavia, where the Aurora Borealis dances over snow-capped peaks and the air is as crisp as the morning dew.",
+      "user_email": "jordan@nexus.io"
     },
     {
       "id": "4",
-      "title": "What Can You Do About Fashion Right Now",
-      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/thought-catalog-640705-unsplash-875x440.jpg",
-      "description": "The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation"
+      "title": "Mastering Minimalist Workspace Design",
+      "image": "https://images.unsplash.com/photo-1493932484895-752d1471eab5?auto=format&fit=crop&q=80&w=1600",
+      "description": "A cluttered desk is often a sign of a cluttered mind. Discover how to create a minimalist workspace that fosters focus, creativity, and productivity. We talk about color palettes, functional furniture, and the 'essentialist' approach to tech and accessories that will transform your home office.",
+      "user_email": "alex@nexus.io"
     },
     {
-      "title": "test7",
-      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/loren-gu-146832-unsplash-875x440.jpg",
-      "description": "fdsfdsf",
-      "id": "d388"
+      "id": "5",
+      "title": "A Guide to Modern Web Development Trends",
+      "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1600",
+      "description": "From the rise of serverless architectures to the adoption of edge computing, the web development landscape is shifting rapidly. Staying ahead means understanding these core shifts and how they impact performance, scalability, and the developer experience in the modern era.",
+      "user_email": "sarah@nexus.io"
     },
     {
-      "id": "43f3",
-      "title": "dfsdf",
-      "image": "https://themeger.shop/wordpress/katen/minimal/wp-content/uploads/sites/5/2022/08/grant-ritchie-1154815-unsplash-875x440.jpg",
-      "description": "bbbbb"
-    },
-    {
-      "title": "sadasd",
-      "image": "https://images.pexels.com/photos/36029/aroni-arsa-children-little.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      "description": "sssssssssssssssssssssssddddddddddddddd",
-      "user_email": "ssss@yahoo.com",
-      "id": "d6d3"
-    },
-    {
-      "title": "downnnnnn",
-      "image": "https://images.pexels.com/photos/459976/pexels-photo-459976.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      "description": "dsadasdsaddddddddddd",
-      "user_email": "halabia@yahoo.com",
-      "id": "c3d5"
+      "id": "6",
+      "title": "The Art of Slow Coffee Brewing",
+      "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1600",
+      "description": "In a world of instant gratification, the slow process of pour-over coffee offers a moment of zen. Learn about different bean profiles, the science of water temperature, and why the ritual of brewing the perfect cup is just as rewarding as the caffeine kick itself.",
+      "user_email": "jordan@nexus.io"
     }
   ]
 }
